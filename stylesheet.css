@@ -221,3 +221,9 @@ footer {
   outline: 2px solid #090979;
   outline-offset: 1px;
 }
+
+/* CCSN picture: a bit smaller than the other thumbnails, centered in its column */
+.pub-media img[src$="CCSN.png"] {
+  width: 75%;
+  margin: 0 auto;
+}
