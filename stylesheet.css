@@ -1,75 +1,223 @@
-:root {
-  --text: #222;
-  --bg: #fff;
-  --link: #1772d0;
-  --link-hover: #f09228;
-  --muted: #666;
+a {
+  color: #ec650b;
+  text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #e6e6e6;
-    --bg: #15171a;
-    --link: #6cb0f5;
-    --link-hover: #f5b04d;
-    --muted: #a0a0a0;
-  }
+a:focus,
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  border-radius: 4px;
 }
-
-* { box-sizing: border-box; }
 
 body {
+  background-color: #ffffff;
+  background-image: linear-gradient(90deg, rgba(131, 58, 180, .01) 0%, rgba(253, 29, 29, .01) 50%, rgba(252, 176, 69, .01) 100%);
+  padding: 0;
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+}
+
+body,
+p,
+a,
+li {
+  font-family: Rubik, Verdana, Helvetica, sans-serif;
   font-size: 15px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #222;
+}
+
+a { color: #ec650b; }
+a:focus, a:hover { color: #ffffff; }
+
+/* Page centered in the middle, text left-aligned */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+/* Bio: text on the left, round photo on the right */
+.bio {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0 0 10px 10px;
+}
+
+.bio-text { flex: 0 0 60%; }
+.bio-photo { flex: 1; }
+
+.name {
+  padding-top: 20px;
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 400;
   text-align: center;
 }
 
-main {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 20px 48px;
-}
+.links { text-align: center; }
 
-a { color: var(--link); text-decoration: none; }
-a:hover, a:focus { color: var(--link-hover); }
-
-/* Round profile photo */
-.photo {
+.pp {
   display: block;
-  width: 180px;
-  height: 180px;
-  margin: 16px auto 0;
+  width: 90%;
+  max-width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-}
-
-h1.name {
-  margin: 24px 0 16px;
-  font-size: 32px;
-  font-weight: 400;
+  margin: 0 auto;
 }
 
 h2 {
-  margin: 40px 0 12px;
+  margin: 32px 0 12px;
+  font-weight: normal;
   font-size: 22px;
-  font-weight: 400;
 }
 
-.links { margin-top: 20px; }
+/* Publication cards */
+.publication {
+  background: white;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
 
-.paper { margin: 0 0 24px; }
-.paper p { margin: 8px 0 0; }
-.papertitle { font-weight: 700; }
+.publication .pub-title {
+  font-weight: 500;
+  font-size: 16px;
+}
 
-ul { list-style: none; padding: 0; margin: 0; }
-li { margin-bottom: 10px; }
+.publication .pub-authors {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #333;
+}
+
+.publication .pub-venue {
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: #555;
+}
+
+.publication hr {
+  margin: 8px 16px;
+  border: 0;
+  border-top: 1px solid #ebe3f0;
+}
+
+.publication .pub-summary {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.publication .pub-links { margin-top: 6px; }
+.publication .pub-links a {
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+/* Thumbnail on the left of a publication, text on the right */
+.publication.has-media {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pub-media { flex: 0 0 200px; }
+.pub-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.pub-body { flex: 1; min-width: 0; }
+
+span.highlight {
+  background-color: rgb(208, 221, 240);
+}
+
+ul { padding-left: 20px; margin: 0; }
+li { margin-bottom: 8px; }
 
 footer {
-  margin-top: 48px;
+  margin-top: 40px;
+  text-align: center;
   font-size: 12px;
-  color: var(--muted);
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .bio { flex-direction: column-reverse; }
+  .bio-text { flex: none; }
+  .bio-photo { width: 60%; }
+  .publication.has-media { flex-direction: column; align-items: stretch; }
+  .pub-media { flex: none; width: 100%; }
+}
+
+/* Random walker canvas: sits on top, never blocks clicks */
+#walk {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* One small canvas per dragon curve, created by the script */
+.dragon-canvas {
+  position: fixed;
+  pointer-events: none;
+  z-index: 51;
+  opacity: 1;
+  transition: opacity 1.5s ease;
+}
+
+.tip {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+#signature { cursor: pointer; }
+
+/* Mode toggle, bottom right */
+#mode {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 60;
+  display: flex;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #ebe3f0;
+  border-radius: 999px;
+  padding: 2px;
+}
+
+#mode button {
+  font-family: Rubik, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #555;
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+#mode button.on {
+  color: #fff;
+  background: #ec650b;
+}
+
+#mode button:focus-visible {
+  outline: 2px solid #090979;
+  outline-offset: 1px;
 }

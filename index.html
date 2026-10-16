@@ -8,58 +8,72 @@
   <meta name="description" content="PhD student in AI for weather forecasting at the University of Liège.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stylesheet.css">
 </head>
 
 <body>
+<canvas id="walk" aria-hidden="true"></canvas>
+<div id="mode" role="group" aria-label="Click effect">
+  <button type="button" data-mode="walker" class="on">random walk</button>
+  <button type="button" data-mode="dragon">dragon curve</button>
+</div>
 <main>
 
-  <header>
-    <img class="photo" src="images/photo.jpg" alt="Sacha Peters" onerror="this.style.display='none'">
-    <h1 class="name">Sacha Peters</h1>
-    <p>
-      I'm a PhD student in AI for weather forecasting at the
-      <a href="https://www.uliege.be/">University of Liège</a>, supervised by
-      <a href="https://glouppe.github.io/">Gilles Louppe</a> and Xavier Fettweis.
-    </p>
-    <p>
-      I'm building MARionette, a diffusion-based emulator of the regional climate model
-      <a href="https://mar.cnrs.fr/">MAR</a> and I use it to generate fast weather forecast ensembles.
-      Before that, I worked on deep learning for gravitational wave detection.
-    </p>
-    <p class="links">
-      <a href="mailto:sacha.peters@uliege.be">Email</a> &nbsp;/&nbsp;
-      <a href="https://github.com/SachaAstro">GitHub</a>
-    </p>
+  <header class="bio">
+    <div class="bio-text">
+      <h1 class="name"><span id="signature" role="button" tabindex="0" title="Click me">Sacha Peters</span></h1>
+      <p>
+        I'm a PhD student in AI for weather forecasting at the
+        <a href="https://www.uliege.be/">University of Liège</a>, supervised by
+        <a href="https://glouppe.github.io/">Gilles Louppe</a> and Xavier Fettweis.
+      </p>
+      <p>
+        I'm building MARionette, a diffusion-based emulator of the regional climate model
+        <a href="https://gitlab.uliege.be/especes/mar/stable">MAR</a> and I use it to generate fast weather forecast ensembles.
+        Before that, I worked on deep learning for gravitational wave detection.
+      </p>
+      <p class="links">
+        <a href="mailto:sacha.peters@uliege.be">Email</a> &nbsp;/&nbsp;
+        <a href="https://github.com/SachaAstro">GitHub</a>
+      </p>
+    </div>
+    <div class="bio-photo">
+      <img class="pp" src="images/photo.jpg" alt="Sacha Peters" onerror="this.style.display='none'">
+    </div>
   </header>
 
   <section>
     <h2>Research</h2>
 
-    <article class="paper">
-      <span class="papertitle">MARionette : a generative emulator of the Regional Climate Model</span>
-      <br>
-      MARv3.14
-      <br>
-      Sacha Peters, Elise Faulx
-      <br>
-      <em>Work in progress</em>, 2026
-      <p>
-        A diffusion model maps 6-hourly ERA5 (0.25°) to hourly MAR fields at 5 km.
-        Sampling is fast and probabilistic, to get ensembles to measure uncertainty.
-      </p>
-    </article>
+    <div class="publication has-media">
+      <div class="pub-media"><img src="images/mar_rain.gif" alt="MAR precipitation animation" loading="lazy" onerror="this.parentNode.style.display='none'"></div>
+      <div class="pub-body">
+        <span class="pub-title">MARionette : a generative emulator of the Regional Climate Model</span>
+        <div class="pub-authors">MARv3.14</div>
+        <div class="pub-authors">Elise Faulx, <span class="highlight">Sacha Peters</span></div>
+        <div class="pub-venue">Work in progress, 2026</div>
+        <hr>
+        <p class="pub-summary">
+          A diffusion model maps 6-hourly ERA5 (0.25°) to hourly MAR fields at 5 km.
+          Sampling is fast and probabilistic, to get ensembles to measure uncertainty.
+        </p>
+      </div>
+    </div>
 
-    <article class="paper">
-      <span class="papertitle">Short-Duration Gravitational Wave Burst Detection using Convolutional Neural Network</span>
-      <br>
-      Pracchia, Peters, Fays
-      <br>
-      <em>arXiv</em>, 2025
-      <br>
-      <a href="https://arxiv.org/abs/2509.13241">arXiv</a>
-    </article>
+    <div class="publication has-media">
+      <div class="pub-media"><img src="images/CCSN.png" alt="Core-collapse supernova gravitational wave signal" loading="lazy" onerror="this.parentNode.style.display='none'"></div>
+      <div class="pub-body">
+        <a href="https://arxiv.org/abs/2509.13241" class="pub-title">
+          Short-Duration Gravitational Wave Burst Detection using Convolutional Neural Network
+        </a>
+        <div class="pub-authors">Pracchia, <span class="highlight">Peters</span>, Fays</div>
+        <div class="pub-venue">arXiv, 2025</div>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2509.13241">[arXiv]</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -83,9 +97,240 @@
   </section>
 
   <footer>
-    Website template from <a href="https://github.com/jonbarron/jonbarron.github.io">Jon Barron</a>.
+    <p class="tip">Click anywhere to release a 2D random walker: &langle;r&sup2;&rangle; = N&ell;&sup2;. Switch to the dragon curve with the toggle, or hold Shift while clicking.</p>
+    Design inspired by <a href="https://github.com/jonbarron/jonbarron.github.io">Jon Barron</a>'s website.
   </footer>
 
 </main>
+
+<script>
+// Click effects: 2D random walker and dragon curve.
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var m = document.getElementById('mode'); if (m) m.style.display = 'none';
+    return;
+  }
+
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var COLORS = ['#ec650b', '#090979', '#00a8d6'];
+  var mode = 'walker';
+
+  function setupCanvas(id) {
+    var c = document.getElementById(id);
+    return { el: c, ctx: c.getContext('2d') };
+  }
+  var W = setupCanvas('walk');
+
+  function resize() {
+    [W].forEach(function (o) {
+      o.el.width = window.innerWidth * dpr;
+      o.el.height = window.innerHeight * dpr;
+      o.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ---------- Mode toggle ----------
+  var buttons = document.querySelectorAll('#mode button');
+  function setMode(m) {
+    mode = m;
+    buttons.forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-mode') === m);
+    });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { setMode(b.getAttribute('data-mode')); });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a, button, #signature')) return;   // links, toggle and name keep their own behaviour
+    var effective = mode;
+    if (e.shiftKey) effective = (mode === 'walker') ? 'dragon' : 'walker';
+    if (effective === 'dragon') launchDragon(e.clientX, e.clientY);
+    else launchWalker(e.clientX, e.clientY);
+  });
+
+  // ---------- Random walkers ----------
+  var MAX_WALKERS = 40, MAX_STEPS = 1500, STEPS_PER_FRAME = 2, STEP = 4;
+  var walkers = [], wRunning = false, wFrame = 0, wFade = 0;
+
+  function launchWalker(x, y) {
+    walkers.push({ x: x, y: y, n: 0, color: COLORS[Math.floor(Math.random() * COLORS.length)] });
+    if (walkers.length > MAX_WALKERS) walkers.shift();
+    wFade = 0;
+    if (!wRunning) { wRunning = true; requestAnimationFrame(walkFrame); }
+  }
+
+  function fade(ctx, alpha) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,' + alpha + ')';
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function walkFrame() {
+    var ctx = W.ctx;
+    wFrame++;
+    if (wFrame % 6 === 0) fade(ctx, 0.05);
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+    for (var i = 0; i < walkers.length; i++) {
+      var w = walkers[i];
+      ctx.strokeStyle = w.color;
+      for (var k = 0; k < STEPS_PER_FRAME && w.n < MAX_STEPS; k++) {
+        var t = Math.random() * 2 * Math.PI;
+        var nx = w.x + STEP * Math.cos(t), ny = w.y + STEP * Math.sin(t);
+        ctx.beginPath(); ctx.moveTo(w.x, w.y); ctx.lineTo(nx, ny); ctx.stroke();
+        w.x = nx; w.y = ny; w.n++;
+      }
+    }
+    walkers = walkers.filter(function (w) { return w.n < MAX_STEPS; });
+    if (walkers.length === 0) {
+      fade(ctx, 0.08);
+      if (++wFade > 90) {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        wRunning = false;
+        return;
+      }
+    }
+    requestAnimationFrame(walkFrame);
+  }
+
+  // ---------- Dragon curve ----------
+  // Several dragons can be drawn at the same time: each one gets its own small canvas.
+  var ORDER = 11;              // 2^11 = 2048 segments
+  var STEP_PX = 3;             // fixed step length in pixels
+  var SEG_PER_FRAME = 20;      // ~1.7 s to draw at 60 fps
+  var HOLD_MS = 2500;          // stays visible after it is finished
+  var FADE_MS = 1500;
+  var MAX_DRAGONS = 30;        // the oldest one is removed beyond this
+
+  // Paper-folding construction: each step appends a turn, then the mirrored reversed sequence.
+  var turns = [];
+  for (var o = 0; o < ORDER; o++) {
+    var nxt = turns.slice(); nxt.push(1);
+    for (var j = turns.length - 1; j >= 0; j--) nxt.push(-turns[j]);
+    turns = nxt;
+  }
+  var NSEG = turns.length + 1;
+  var px = new Float32Array(NSEG + 1), py = new Float32Array(NSEG + 1);
+  (function () {
+    var dx = [1, 0, -1, 0], dy = [0, 1, 0, -1], d = 0, x = 1, y = 0;
+    px[0] = 0; py[0] = 0; px[1] = 1; py[1] = 0;
+    for (var i = 0; i < turns.length; i++) {
+      d = (d + turns[i] + 4) % 4;
+      x += dx[d]; y += dy[d];
+      px[i + 2] = x; py[i + 2] = y;
+    }
+  })();
+  var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (var q = 0; q <= NSEG; q++) {
+    if (px[q] < minX) minX = px[q]; if (px[q] > maxX) maxX = px[q];
+    if (py[q] < minY) minY = py[q]; if (py[q] > maxY) maxY = py[q];
+  }
+
+  var dragons = [], dragonRunning = false;
+
+  function removeDragon(dr) {
+    clearTimeout(dr.holdTimer); clearTimeout(dr.fadeTimer);
+    dr.dead = true;
+    if (dr.el.parentNode) dr.el.parentNode.removeChild(dr.el);
+    dragons = dragons.filter(function (d) { return d !== dr; });
+  }
+
+  // Clicking the name (or Enter/Space on it) draws a dragon from there.
+  var sig = document.getElementById('signature');
+  if (sig) {
+    var fire = function () {
+      var r = sig.getBoundingClientRect();
+      launchDragon(r.left + r.width / 2, r.top + r.height / 2);
+    };
+    sig.addEventListener('click', fire);
+    sig.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fire(); }
+    });
+  }
+
+  function launchDragon(cx, cy) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var angle = Math.random() * 2 * Math.PI;               // random orientation
+    var flip = Math.random() < 0.5 ? -1 : 1;               // random mirror image
+    var cosA = Math.cos(angle), sinA = Math.sin(angle);
+    var w = maxX - minX, h = maxY - minY;
+    // Half-size of the rotated bounding box (in curve units)
+    var hx = (Math.abs(w * cosA) + Math.abs(h * sinA)) / 2;
+    var hy = (Math.abs(w * sinA) + Math.abs(h * cosA)) / 2;
+    // Fixed small step; only shrinks if the curve could not fit on a tiny screen
+    var s = Math.min(STEP_PX, (vw - 16) / (2 * hx), (vh - 16) / (2 * hy));
+    var ox = Math.min(Math.max(cx, hx * s + 8), vw - hx * s - 8);   // stay on screen, near the click
+    var oy = Math.min(Math.max(cy, hy * s + 8), vh - hy * s - 8);
+
+    // Small canvas just big enough for this dragon
+    var wpx = Math.ceil(2 * hx * s) + 6, hpx = Math.ceil(2 * hy * s) + 6;
+    var el = document.createElement('canvas');
+    el.className = 'dragon-canvas';
+    el.setAttribute('aria-hidden', 'true');
+    el.width = wpx * dpr; el.height = hpx * dpr;
+    el.style.width = wpx + 'px'; el.style.height = hpx + 'px';
+    el.style.left = (ox - wpx / 2) + 'px'; el.style.top = (oy - hpx / 2) + 'px';
+    document.body.appendChild(el);
+    var ctx = el.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var dr = {
+      el: el, ctx: ctx, i: 0, s: s, cosA: cosA, sinA: sinA, flip: flip,
+      ox: wpx / 2, oy: hpx / 2,
+      mx: (minX + maxX) / 2, my: (minY + maxY) / 2,
+      finished: false, dead: false
+    };
+    dragons.push(dr);
+    if (dragons.length > MAX_DRAGONS) removeDragon(dragons[0]);
+    if (!dragonRunning) { dragonRunning = true; requestAnimationFrame(dragonFrame); }
+  }
+
+  function pos(dr, i) {
+    var a = (px[i] - dr.mx) * dr.flip, b = py[i] - dr.my;
+    return [dr.ox + (a * dr.cosA - b * dr.sinA) * dr.s,
+            dr.oy + (a * dr.sinA + b * dr.cosA) * dr.s];
+  }
+
+  function dragonFrame() {
+    var active = false;
+    for (var n = 0; n < dragons.length; n++) {
+      var dr = dragons[n];
+      if (dr.dead || dr.finished) continue;
+      active = true;
+      var ctx = dr.ctx;
+      var end = Math.min(dr.i + SEG_PER_FRAME, NSEG);
+      var hue = 24 + (200 - 24) * (end / NSEG);             // orange -> cyan along the curve
+      ctx.strokeStyle = 'hsl(' + hue + ', 90%, 48%)';
+      ctx.lineWidth = 1;
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      var p = pos(dr, dr.i);
+      ctx.moveTo(p[0], p[1]);
+      for (var k = dr.i + 1; k <= end; k++) {
+        p = pos(dr, k);
+        ctx.lineTo(p[0], p[1]);
+      }
+      ctx.stroke();
+      dr.i = end;
+      if (end >= NSEG) {
+        dr.finished = true;
+        (function (d) {
+          d.holdTimer = setTimeout(function () {
+            d.el.style.opacity = '0';                       // CSS transition does the fade
+            d.fadeTimer = setTimeout(function () { removeDragon(d); }, FADE_MS + 100);
+          }, HOLD_MS);
+        })(dr);
+      }
+    }
+    if (active) requestAnimationFrame(dragonFrame);
+    else dragonRunning = false;
+  }
+})();
+</script>
+
 </body>
 </html>
