@@ -16,18 +16,17 @@
 <main>
 
   <header>
+    <img class="photo" src="images/photo.jpg" alt="Sacha Peters" onerror="this.style.display='none'">
     <h1 class="name">Sacha Peters</h1>
     <p>
       I'm a PhD student in AI for weather forecasting at the
       <a href="https://www.uliege.be/">University of Liège</a>, supervised by
-      <a href="https://glouppe.github.io/">Gilles Louppe</a> and
-      Xavier Fettweis.
+      <a href="https://glouppe.github.io/">Gilles Louppe</a> and Xavier Fettweis.
     </p>
     <p>
-      I'm building <strong>MAR.ia</strong>, a diffusion-based emulator of the regional climate model
-      <a href="https://mar.cnrs.fr/">MAR</a>. It turns coarse ERA5 data into high-resolution
-      surface fields over Belgium, and I use it to generate fast weather forecast ensembles.
-      Before that, I worked on deep learning for gravitational wave detectors.
+      I'm building MARionette, a diffusion-based emulator of the regional climate model
+      <a href="https://mar.cnrs.fr/">MAR</a> and I use it to generate fast weather forecast ensembles.
+      Before that, I worked on deep learning for gravitational wave detection.
     </p>
     <p class="links">
       <a href="mailto:sacha.peters@uliege.be">Email</a> &nbsp;/&nbsp;
@@ -39,53 +38,27 @@
     <h2>Research</h2>
 
     <article class="paper">
-      <div class="media">
-        <video muted autoplay loop playsinline>
-          <source src="images/all_vars_mixture.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="text">
-        <span class="papertitle">MAR.ia: a diffusion-based emulator for high-resolution climate downscaling over Belgium</span>
-        <br>
-        <strong>Sacha Peters</strong>, Elise Faulx
-        <br>
-        <em>Work in progress</em>, 2026
-        <p>
-          A diffusion model maps 6-hourly ERA5 (0.25°) to hourly MAR fields at 5 km.
-          Sampling is fast, so we get ensembles to measure uncertainty.
-          Next steps: extreme events, and all MAR variables.
-        </p>
-      </div>
+      <span class="papertitle">MARionette : a generative emulator of the Regional Climate Model</span>
+      <br>
+      MARv3.14
+      <br>
+      Sacha Peters, Elise Faulx
+      <br>
+      <em>Work in progress</em>, 2026
+      <p>
+        A diffusion model maps 6-hourly ERA5 (0.25°) to hourly MAR fields at 5 km.
+        Sampling is fast and probabilistic, to get ensembles to measure uncertainty.
+      </p>
     </article>
 
     <article class="paper">
-      <div class="media">
-        <video muted autoplay loop playsinline>
-          <source src="images/forecast_sart_tilman.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="text">
-        <span class="papertitle">Ensemble forecasts with MAR.ia</span>
-        <br>
-        <em>Work in progress</em>
-        <p>
-          Precipitation, temperature and wind forecasts for Sart Tilman (Liège).
-          Each thin line is one ensemble member, the thick line is their mean.
-        </p>
-      </div>
-    </article>
-
-    <article class="paper">
-      <div class="media"></div>
-      <div class="text">
-        <span class="papertitle">Short-Duration Gravitational Wave Burst Detection using Convolutional Neural Network</span>
-        <br>
-        Pracchia, <strong>Peters</strong>, Fays
-        <br>
-        <em>arXiv</em>, 2025
-        <br>
-        <a href="https://arxiv.org/abs/2509.13241">arXiv</a>
-      </div>
+      <span class="papertitle">Short-Duration Gravitational Wave Burst Detection using Convolutional Neural Network</span>
+      <br>
+      Pracchia, Peters, Fays
+      <br>
+      <em>arXiv</em>, 2025
+      <br>
+      <a href="https://arxiv.org/abs/2509.13241">arXiv</a>
     </article>
   </section>
 
@@ -94,8 +67,9 @@
     <ul>
       <li>MAR.ia: How diffusion-based approaches can reproduce extreme weather events. <em>EGU 2026, Vienna</em> (talk)</li>
       <li>MAR.ia: a diffusion-based emulator for high-resolution climate downscaling over Belgium. <em>5th ECMWF-ESA Machine Learning Workshop, Bologna, 2026</em> (poster)</li>
-      <li><em>ELLIS Winter School on AI for Earth System, Hazards and Climate Extremes, Athens, 2026</em>: poster about the MAR.ia emulator</li>
+      <li>ELLIS Winter School on AI for Earth System, Hazards and Climate Extremes, <em>Athens, 2026</em> (poster)</li>
       <li>Evaluating deep neural networks for subtracting Newtonian noise in GW detectors. <em>XV Einstein Telescope Symposium, Bologna, 2025</em> (talk)</li>
+      <li>U-NET for minute-long unmodelled gravitational wave bursts. <em>ACE seminar #29 - ULiège @ CERN, CERN 2024</em> (talk)</li>
     </ul>
   </section>
 
